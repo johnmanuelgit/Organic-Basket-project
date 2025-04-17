@@ -1,0 +1,72 @@
+{
+  "categories": [
+    {
+      "name": "Karnataka",
+      "count": 0
+    },
+    {
+      "name": "Alphonso Mango",
+      "count": 3
+    },
+    {
+      "name": "Goa",
+      "count": 1
+    },
+    {
+      "name": "Gujarat",
+      "count": 1
+    },
+    {
+      "name": "Maharashtra",
+      "count": 4
+    },
+    {
+      "name": "Uttar Pradesh",
+      "count": 1
+    }
+  ],
+  "products": [
+    {
+      "name": "Devgad Alphonso Mango",
+      "image": "assets/image/product -1.webp",
+      "category": "Alphonso Mango",
+      "route": "/devgad"
+    },
+    {
+      "name": "Goa Mancurad Mango",
+      "image": "assets/image/product-2.webp",
+      "category": "Goa",
+      "route": "/goa"
+    },
+    {
+      "name": "Kesar Mango",
+      "image": "assets/image/product-3.webp",
+      "category": "Gujarat",
+      "route": "/kesar"
+    },
+    {
+      "name": "Langra Mango",
+      "image": "assets/image/product-4.webp",
+      "category": "Uttar Pradesh",
+      "route": "/langra"
+    },
+    {
+      "name": "Ratnagiri Alphonso Mango",
+      "image": "assets/image/product-5.webp",
+      "category": "Alphonso Mango",
+      "route": "/ratnagiri"
+    },
+    {
+      "name": "Payari Mango",
+      "image": "assets/image/product-6.webp",
+      "category": "Maharashtra",
+      "route": "/payari"
+    },
+    {
+      "name": "Ratna Alphonso Mango",
+      "image": "assets/image/product-7.webp",
+      "category": "Alphonso Mango",
+      "route": "/ratna"
+    }
+  ]
+}

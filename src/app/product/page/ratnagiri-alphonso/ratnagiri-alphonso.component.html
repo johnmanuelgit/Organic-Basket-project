@@ -1,0 +1,108 @@
+<div class="py-40 bg-[#f6f0e8] space-x-10 w-full h-full overflow-hidden">
+  <div class="flex justify-between items-center mx-40">
+    <p class="flex gap-2 text-[#941a28] text-sm">
+      <a [routerLink]="['home']" class="hover:underline">Home</a> >  <a [routerLink]="['/products']" class="hover:underline">Products</a> > Ratnagiri Alphonso Mango
+    </p>
+  </div>
+  <div class="flex flex-row items-center justify-center w-full h-full">
+    <div class="w-1/2 flex items-center justify-center">
+    <img src="assets/image/product-7.webp" alt="Mango Basket" class="w-80 h-80 transition-transform duration-500 ease-in-out hover:scale-125">
+    </div>
+    <div class="w-1/2 space-y-4">
+      <h1 class="text-4xl font-bold text-green-600">Ratnagiri Alphonso Mango</h1>
+
+      <!-- Select Week -->
+
+      <label class="block mt-4">Select Week </label>
+      <div class="relative w-full">
+        <button (click)="toggleDropdown()" class="border rounded px-3 py-2 text-left">
+          Choose an option
+          <svg class="inline-block ml-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"
+            stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.25 9.25L10 14l4.75-4.75" />
+          </svg>
+        </button>
+        <!-- Dropdown menu -->
+        <div *ngIf="isOpen"
+          class="absolute right-0 mt-2 w-full bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition duration-300 ease-out">
+          <div class="py-1">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">14 April to 21 April 22 (Week
+              5)</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">23 April to 29 April (Week
+              6)</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">30 April to 06 May (Week 7)</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">07 May to 13 May (Week 8)</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">14 May to 21 May (Week 9)</a>
+          </div>
+        </div>
+      </div>
+<div class="flex items-center space-x-2">
+      <!-- Select Grade -->
+      <label class="block mt-4 bg-[#701011] text-white px-2 py-2 w-30 rounded-r-lg">Select Grade </label>
+      <p class="text-[#701011] font-bold text-xl">></p>
+      <div class="flex space-x-4">
+        <span class="flex items-center justify-center w-10 h-10 border rounded-full bg-red-200 cursor-pointer">A1</span>
+        <span class="flex items-center justify-center w-10 h-10 border rounded-full bg-red-200 cursor-pointer">A2</span>
+        <span class="flex items-center justify-center w-10 h-10 border rounded-full bg-red-200 cursor-pointer">A3</span>
+      </div>
+    </div>
+      <!-- Quantity -->
+      <label class="block mt-4">Quantity (in dz.)</label>
+      <div class="flex items-center">
+        <button (click)="decreaseQuantity()" class="px-3 py-1 border rounded">-</button>
+        <input type="text" [(ngModel)]="quantity" class="w-12 text-center border mx-2 rounded">
+        <button (click)="increaseQuantity()" class="px-3 py-1 border rounded">+</button>
+      </div>
+
+      <!-- Price -->
+      <p class="text-xl font-bold mt-4">Price: ₹{{ price * quantity }}</p>
+
+      <!-- Buttons -->
+      <div class="mt-4 flex space-x-4">
+        <button (click)="addToCart({name: 'Ratnagiri Alphonso mango', image: 'assets/image/product-5.webp'}, quantity)" class=" border-2 border-orange-500 px-6 py-4 rounded-full text-orange-600 font-bold hover:scale-105" >Add to Basket</button>
+        <button class="bg-orange-500 text-white px-10 py-4 rounded-full font-bold hover:scale-105">Buy Now</button>
+      </div>
+    </div>
+  </div>
+  <img src="assets\image\product\product-5.png" class="object-cover w-full h-full p-10">
+  <div class="flex">
+    <img src="assets/image/product/page3.png" class="relative object-cover w-full h-full scale-110">
+    <div class="absolute flex flex-col items-center left-40 my-60">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div *ngFor="let product of getVisibleProducts()" class="p-3">
+          <img [src]="product.image" [alt]="product.name" class="w-40 h-40 object-cover rounded-md">
+          <h3 class="text-xl font-semibold mt-2">{{ product.name }}</h3>
+          <button [routerLink]="[product.route]"
+            class="mt-3 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">
+            Order Mangoes
+          </button>
+        </div>
+      </div>
+
+      <!-- Pagination Buttons -->
+      <div class="flex mt-4 space-x-2">
+        <span *ngFor="let product of products; let index = index"
+          class="w-4 h-4 rounded-full transition-all duration-300" [ngClass]="{
+        'bg-orange-500': index >= currentStartIndex && index < (currentStartIndex + 4),
+        'bg-white': !(index >= currentStartIndex && index < (currentStartIndex + 4))
+      }"></span>
+      </div>
+
+    </div>
+  </div>
+  <div class="max-w-2xl mx-auto mt-15">
+    <div class="bg-white p-5 rounded-lg shadow-md">
+      <button (click)="toggleFAQ()" 
+              class="w-full flex justify-between items-center text-lg font-semibold text-[#8b0000]">
+        How to Identify Ratnagiri Alphonso Mango?
+        <span [ngClass]="{ 'rotate-180': isOpens }" class="transition-transform duration-300">
+          &#9650;
+        </span>
+      </button>
+      
+      <div *ngIf="isOpens" class="mt-3 text-gray-700 transition-all duration-300">
+        The factors on which a Ratnagiri alphonso mango can be identified are color, shape, aroma and taste.
+      </div>
+    </div>
+  </div>
+</div>

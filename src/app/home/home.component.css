@@ -1,0 +1,53 @@
+/* testimonials-carousel.component.css */
+:host {
+    display: block;
+    width: 100%;
+  }
+  
+  .text-\[\#752F2F\] {
+    color: #752F2F;
+  }
+  
+  .text-\[\#B6895B\] {
+    color: #B6895B;
+  }
+  
+  .bg-\[\#752F2F\] {
+    background-color: #752F2F;
+  }
+  
+  .scale-105 {
+    transition: transform 0.3s ease;
+  }
+  
+  .scale-105:hover {
+    transform: scale(1.05);
+  }
+  
+  .object-cover {
+    object-fit: cover;
+  }
+  
+  .scale-150 {
+    transform: scale(1.5);
+  }
+  
+  .rounded-4 {
+    border-radius: 1rem;
+  }
+  
+  /* Mobile view adjustments */
+  @media (max-width: 767px) {
+    .scale-105 {
+      max-width: 90% !important;
+      margin: 0 auto;
+    }
+  }
+  
+  /* Tablet and desktop view */
+  @media (min-width: 768px) {
+    .scale-105 {
+      width: 30%;
+      max-width: 24rem;
+    }
+  }

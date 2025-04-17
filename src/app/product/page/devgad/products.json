@@ -1,0 +1,12 @@
+{
+    "products":[
+        {"name":"Devgad Alphonso Mango","image":"assets/image/product -1.webp" ,"route": "/devgad"},
+        {"name":"Goa Mancurad Mango","image":"assets/image/product-2.webp","route": "/goa"},
+        {"name":"Kesar Mango","image":"assets/image/product-3.webp","route": "/kesar"},
+        {"name":"Langra Mango","image":"assets/image/product-4.webp","route": "/langra"},
+        {"name":"Ratnagiri Alphonso Mango","image":"assets/image/product-5.webp","route": "/ratnagiri"},
+        { "name": "Payari Mango", "image": "assets/image/product-6.webp" ,"route": "/payari"},
+        { "name": "Ratna Alphonso Mango", "image": "assets/image/product-7.webp" ,"route": "/ratna"}
+    
+]
+} 

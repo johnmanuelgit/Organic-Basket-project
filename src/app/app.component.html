@@ -1,0 +1,67 @@
+<div class="flex absolute fixed items-center justify-between bg-[#f6f0e8] px-4 w-full h-20 shadow-md z-50"
+  [ngClass]="{'bg-[#f6f0e8] shadow-md':isscrolled}">
+  <div class="flex items-end space-x-2 rounded-full w-70 h-70 md:w-180 md:h-190 bg-white mb-40 md:mb-90 md:-mx-60 -mx-20 md:-my-60 md:p-5 p-20 shadow-lg">
+    <img src="assets\image\home-logo.png" alt="Mango Basket Logo" class="md:-my-15 -my-20 mx-5 md:mx-70 md:w-50 md:h-50 md:py-2 hover:scale-105">
+  </div>
+  <!-- Menu Button for Mobile -->
+<button (click)="toggleMenu()" class=" absolute right-10 md:hidden text-xl text-[#8b0000] text-center p-10">
+  <i class="fas fa-bars"></i>
+</button>
+<!-- Nav Links -->
+<nav
+  [ngClass]="{ 'flex': isMenuOpen, 'hidden': !isMenuOpen }"
+  class="flex-col items-center gap-y-4 mt-110 md:mt-0 text-[#8b0000] font-small text-xl p-6 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl "
+>
+  <a [routerLink]="['home']" routerLinkActive="active-link"
+    class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Home</a>
+  <a [routerLink]="['products']" routerLinkActive="active-link"
+    class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Products</a>
+  <a [routerLink]="['about']" routerLinkActive="active-link"
+    class="hover:underline decoration-3 underline-offset-4 hover:scale-110">About Us</a>
+  <a [routerLink]="['blog']" routerLinkActive="active-link"
+    class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Blog</a>
+  <a [routerLink]="['contact']" routerLinkActive="active-link"
+    class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Contact Us</a>
+    <div class="relative">
+  <img src="assets/icon/cart.svg" alt="Cart" class="relative w-6 h-6 hover:shadow-lg hover:scale-125 cursor-pointer"
+    [routerLink]="['cart']" />
+    <span *ngIf="cartCount > 0" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+      {{ cartCount }}
+    </span>
+  </div>
+  <p class="hover:shadow-lg hover:scale-125 cursor-pointer" [routerLink]="['login']">
+    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 18 18">
+      <path fill="#941a28"
+        d="M0,18V15.75c0-2.476,4.05-4.5,9-4.5s9,2.025,9,4.5V18ZM4.5,4.5A4.5,4.5,0,1,1,9,9,4.5,4.5,0,0,1,4.5,4.5Z">
+      </path>
+    </svg>
+  </p>
+  <button [routerLink]="['products']"
+    class="px-4 cursor-pointer py-2 bg-orange-400 text-white rounded-full text-lg font-semibold hover:bg-orange-500 hover:scale-110">
+    Order Mangoes
+  </button>
+</nav>
+</div>
+<router-outlet>
+  <button (click)="scrolltop()" *ngIf="showbutton" class="fixed bottom-5 right-5 w-20 h-20 bg-stone-200 text-5xl text-black rounded-full flex items-center justify-center shadow-lg transition-opacity duration-500 font-bold hover:bg-white z-50">
+    ↑
+  </button>
+</router-outlet>
+<footer>
+  <div class="flex w-full h-100">
+    <img src="assets/image/footer.png" class="relative w-full h-full object-cover">
+    <div class="flex flex-col md:flex-row absolute left-10 my-30 md:left-110 text-white p-2 font-small gap-x-8 md:my-40">
+      <a [routerLink]="['home']">Home</a>
+      <a [routerLink]="['products']">Products</a>
+      <a [routerLink]="['about']">Blog</a>
+      <a [routerLink]="['blog']">Recipes</a>
+      <a>Wiki</a>
+      <a [routerLink]="['contact']">Contact Us</a>
+    </div>
+    <div class="flex flex-col md:flex-row absolute left-70 md:left-110 text-white text-small  gap-x-6 p-5 my-60">
+      <a>Terms & Conditions</a>
+      <a>Return & Refund Policy</a>
+      <a>Privacy Policy</a>
+    </div>
+  </div>
+</footer>
