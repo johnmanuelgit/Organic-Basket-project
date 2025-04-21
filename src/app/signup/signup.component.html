@@ -1,25 +1,32 @@
 <div class="w-full h-full bg-[url('assets/image/product-bg.png')]">
-    <div class="flex items-center justify-center h-screen">
-        <div class="bg-white p-8 rounded shadow-md w-96">
+    <div class="flex items-center justify-center h-full">
+        <div class="bg-white p-8 mt-20 rounded shadow-md w-96 mb-20">
             <h2 class="text-4xl font-bold text-center text-[#8b0000] mb-6">Register</h2>
 
-            <form (ngSubmit)="register()"  #form="ngForm">
+            <form [formGroup]="signupform" (ngSubmit)="register()">
                 <div class="mb-4">
-                    <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                    <input type="text" id="name" name="name"[(ngModel)]="user.name"
+                    <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Name *</label>
+                    <input type="text" id="name" formControlName="name"
                         class="w-full px-3 py-2 border rounded border-gray-300 focus:outline-none focus:border-indigo-500">
+                        <div *ngIf="signupform.get('name')?.touched && signupform.get('name')?.invalid" class="text-red-500 text-sm">
+                            <div *ngIf="signupform.get('name')?.hasError('required')">name is required.</div>
+                        </div>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email address *</label>
-                    <input type="email" id="email" name="email"[(ngModel)]="user.email"
+                    <input type="email" id="email"formControlName="email"
                         class="w-full px-3 py-2 border rounded border-gray-300 focus:outline-none focus:border-indigo-500">
-                </div>
+                        <div *ngIf="signupform.get('email')?.touched && signupform.get('email')?.invalid" class="text-red-500 text-sm">
+                            <div *ngIf="signupform.get('email')?.hasError('required')">Email is required.</div>
+                        </div>
+                    </div>
+                
 
                 <div class="mb-4">
                     <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password *</label>
                     <div class="relative">
-                        <input [type]="showPassword ? 'text' : 'password'"  id="password" name="password" [(ngModel)]="user.password"
+                        <input [type]="showPassword ? 'text' : 'password'"  id="password" formControlName="password"
                             class="w-full px-3 py-2 border rounded border-gray-300 focus:outline-none focus:border-indigo-500">
                             <button type="button" (click)="togglePasswordVisibility()"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -32,6 +39,12 @@
                             </svg>
                           </button>
                     </div>
+                    <div *ngIf="signupform.get('password')?.touched && signupform.get('password')?.invalid" class="text-red-500 text-sm">
+                        <div *ngIf="signupform.get('password')?.hasError('required')">Password is required.</div>
+                        <div *ngIf="signupform.get('password')?.hasError('minlength')">Password must be at least 8 characters long.</div>
+                        <div *ngIf="signupform.get('password')?.hasError('maxlength')">Password cannot exceed 20 characters.</div>
+                        <div *ngIf="signupform.get('password')?.hasError('uppercase')">Password must contain at least one uppercase letter.</div>
+                      </div>
                 </div>
 
                 <button type="submit"

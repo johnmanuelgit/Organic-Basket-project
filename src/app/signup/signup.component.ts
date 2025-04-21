@@ -1,28 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
-  imports: [CommonModule, RouterModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterModule, RouterLink,FormsModule,ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
   showPassword:boolean = false;
+  signupform:FormGroup;
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
   
-user ={name:'',email:'',password:''};
+constructor (private http:HttpClient){
+  this.signupform = new FormGroup({
+    name:new FormControl('',[Validators.required]),
+    email:new FormControl('',[Validators.required,Validators.email]),
+    password:new FormControl('',[
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(20),
+      SignupComponent.uppercaseValidator
 
-constructor (private http:HttpClient){}
-
+    ]),
+  });
+}
+static uppercaseValidator(control: AbstractControl): ValidationErrors | null {
+  const hasUppercase = /[A-Z]/.test(control.value);
+  return hasUppercase ? null : { uppercase: true };
+}
 register(){
-  this.http.post('http://localhost:3000/register',this.user).subscribe(res=>alert('Registered Successfully'),
+  this.http.post('http://localhost:3000/register',this.signupform).subscribe(res=>alert('Registered Successfully'),
 err=>{
   if(err.status === 400){
     alert('email already registerd');

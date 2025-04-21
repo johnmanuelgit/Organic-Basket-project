@@ -1,29 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, RouterModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterModule, RouterLink,FormsModule,ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   showPassword = false;
-  user = {
-    email: '',
-    password: ''
-  };
+  loginForm:FormGroup;
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-constructor (private http:HttpClient){}
+constructor (private http:HttpClient){
+  this.loginForm = new FormGroup({
+    email:new FormControl('',[Validators.required,Validators.email]),
+    password:new FormControl('',[
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(20),
+      LoginComponent.uppercaseValidator
 
+    ]),
+  });
+}
+static uppercaseValidator(control: AbstractControl): ValidationErrors | null {
+  const hasUppercase = /[A-Z]/.test(control.value);
+  return hasUppercase ? null : { uppercase: true };
+}
 login(){
-  this.http.post<any>('http://localhost:3000/login',this.user).subscribe(
+
+  if (this.loginForm.invalid) {
+    return;
+  }
+  this.http.post<any>('http://localhost:3000/login',this.loginForm.value).subscribe(
     (res)=>{
       localStorage.setItem('token',res.token);
       alert('login successful!');
