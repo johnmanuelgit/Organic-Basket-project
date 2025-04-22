@@ -15,6 +15,7 @@ import { PayariMangoesComponent } from './product/page/payari-mangoes/payari-man
 import { BlogComponent } from './blog/blog.component';
 import { PageComponent } from './blog/page/page.component';
 import { RatnagiriAlphonsoComponent } from './product/page/ratnagiri-alphonso/ratnagiri-alphonso.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 export const routes: Routes = [{ path: "", component: HomeComponent },
@@ -26,6 +27,7 @@ export const routes: Routes = [{ path: "", component: HomeComponent },
 { path: "signup", component: SignupComponent },
 { path: "about", component: AboutComponent },
 { path: "blog", component: BlogComponent },
+{path:"profile",component:ProfileComponent},
 
 // product details page
 { path: "devgad", component: DevgadComponent },

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +18,7 @@ export class SignupComponent {
     this.showPassword = !this.showPassword;
   }
   
-constructor (private http:HttpClient){
+constructor (private http:HttpClient,private router:Router){
   this.signupform = new FormGroup({
     name:new FormControl('',[Validators.required]),
     email:new FormControl('',[Validators.required,Validators.email]),
@@ -35,15 +35,23 @@ static uppercaseValidator(control: AbstractControl): ValidationErrors | null {
   const hasUppercase = /[A-Z]/.test(control.value);
   return hasUppercase ? null : { uppercase: true };
 }
-register(){
-  this.http.post('http://localhost:3000/register',this.signupform).subscribe(res=>alert('Registered Successfully'),
-err=>{
-  if(err.status === 400){
-    alert('email already registerd');
-  }
-  else{
-    alert('registeration failed');
-  }
-})
+register() {
+  this.http.post('https://bakendrepo.onrender.com/register', this.signupform.value).subscribe({
+    
+    next: (res) => {
+      console.log('Registration successful:', res);
+      alert('Registered Successfully');
+      this.router.navigate(['/login']);
+    },
+    error: (err) => {
+      if (err.status === 400) {
+        alert('Email already registered');
+        this.router.navigate(['/login']);
+      } else {
+        alert('Registration failed');
+      }
+    }
+  });
 }
+
 }

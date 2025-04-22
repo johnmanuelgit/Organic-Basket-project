@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import {Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-constructor (private http:HttpClient){
+constructor (private http:HttpClient,private router:Router){
   this.loginForm = new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
     password:new FormControl('',[
@@ -34,17 +34,18 @@ static uppercaseValidator(control: AbstractControl): ValidationErrors | null {
   const hasUppercase = /[A-Z]/.test(control.value);
   return hasUppercase ? null : { uppercase: true };
 }
-login(){
-
+login() {
   if (this.loginForm.invalid) {
     return;
   }
-  this.http.post<any>('http://localhost:3000/login',this.loginForm.value).subscribe(
-    (res)=>{
-      localStorage.setItem('token',res.token);
-      alert('login successful!');
+
+  this.http.post<any>('https://bakendrepo.onrender.com/login', this.loginForm.value).subscribe({
+    next: (res) => {
+      localStorage.setItem('token', res.token);
+      alert('Login successful!');
+      this.router.navigate(['/home']);
     },
-    err => {
+    error: (err) => {
       if (err.status === 404) {
         alert("User not found");
       } else if (err.status === 401) {
@@ -53,6 +54,7 @@ login(){
         alert("Login failed");
       }
     }
-  );
+  });
 }
+
 }

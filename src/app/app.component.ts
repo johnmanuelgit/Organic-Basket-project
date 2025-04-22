@@ -47,4 +47,15 @@ toggleMenu() {
     const pageHeight = document.documentElement.scrollHeight;
     this.showbutton = scrollPosition >= pageHeight -600
   }
+
+  profile(){
+    const token = localStorage.getItem('token');
+
+  if(token){
+    this.router.navigate(['/profile'])
+  }
+  else{
+    this.router.navigate(['/login'])
+  }
+  }
 }
