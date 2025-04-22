@@ -41,6 +41,7 @@ login() {
 
   this.http.post<any>('https://bakendrepo.onrender.com/login', this.loginForm.value).subscribe({
     next: (res) => {
+      localStorage.setItem('userId', res.user._id);
       localStorage.setItem('token', res.token);
       alert('Login successful!');
       this.router.navigate(['/home']);
