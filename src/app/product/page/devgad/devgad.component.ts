@@ -25,23 +25,29 @@ export class DevgadComponent implements OnInit, OnDestroy {
   constructor(private cartService: CartService) {}
 
   addToCart(product: any, quantity: number) {
-    // Make sure we have a valid product
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      alert('Please login to add products to the cart.');
+      return;
+    }
+  
     if (!product) {
       console.error('Product is undefined or null');
       return;
     }
-    
+  
     const item = {
       name: product.name,
       image: product.image,
-      price: this.price, // Use the component price instead of hardcoded value
-      quantity: this.quantity, // Use the component quantity instead of parameter
+      price: this.price,
+      quantity: quantity,
     };
-    
-    this.cartService.addToCart(item);
-    alert(`${product.name} added to cart!`); // Fixed template string syntax
-  }
 
+    this.cartService.addToCart(item);
+    alert(`${product.name} added to cart!`);
+  }
+  
 
   ngOnInit() {
     this.products = productsData.products;

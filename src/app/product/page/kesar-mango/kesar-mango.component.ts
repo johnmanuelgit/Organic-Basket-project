@@ -23,24 +23,31 @@ export class KesarMangoComponent implements OnInit, OnDestroy {
     
     constructor(private cartService: CartService) {}
 
-  addToCart(product: any, quantity: number) {
-    // Make sure we have a valid product
-    if (!product) {
-      console.error('Product is undefined or null');
-      return;
+
+    addToCart(product: any, quantity: number) {
+      const token = localStorage.getItem('token');
+    
+      if (!token) {
+        alert('Please login to add products to the cart.');
+        return;
+      }
+    
+      if (!product) {
+        console.error('Product is undefined or null');
+        return;
+      }
+    
+      const item = {
+        name: product.name,
+        image: product.image,
+        price: this.price,
+        quantity: quantity,
+      };
+  
+      this.cartService.addToCart(item);
+      alert(`${product.name} added to cart!`);
     }
     
-    const item = {
-      name: product.name,
-      image: product.image,
-      price: this.price, // Use the component price instead of hardcoded value
-      quantity: this.quantity, // Use the component quantity instead of parameter
-    };
-    
-    this.cartService.addToCart(item);
-    alert(`${product.name} added to cart!`); // Fixed template string syntax
-  }
-
 
   ngOnInit() {
     this.products = productsData.products;

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -13,12 +14,10 @@ interface CartItem {
 })
 export class CartService {
   private cart: CartItem[] = [];
-
-  // Observable to keep track of item count
   private cartItemsCount = new BehaviorSubject<number>(0);
   cartItemsCount$ = this.cartItemsCount.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadCart();
     this.updateCartCount(this.getTotalItemCount());
   }
@@ -55,6 +54,30 @@ export class CartService {
     }
     this.saveCart();
     this.updateCartCount(this.getTotalItemCount());
+
+    const userId = localStorage.getItem('userId')
+    if(userId){
+      const data = {
+        ...item,
+        userId:userId,
+      };
+      this.http.post('https://bakendrepo.onrender.com/api/cart',data).subscribe({
+        next:()=> console.log('Item Saved To Backend.'),
+        error:(err)=>console.error('failed to save item to backend',err)
+      });
+    }
+  };
+  fetchCartFromBackend(){
+const userId = localStorage.getItem('userId');
+this.http.get<CartItem[]>(`https://bakendrepo.onrender.com/api/cart/${userId}`).subscribe({
+  next: (cartItems) => {
+    this.cart = cartItems;
+    this.saveCart(); // Optionally save it to localStorage
+    this.updateCartCount(this.getTotalItemCount());
+  },
+  error: (err) => console.error('Failed to fetch cart from backend:', err),
+});
+
   }
 
   clearCart() {

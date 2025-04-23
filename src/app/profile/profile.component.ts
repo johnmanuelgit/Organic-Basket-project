@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient} from '@angular/common/http';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { CartService } from '../cart/cart.service';
 
 
 
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit{
   user:any=true;
 
-  constructor (private router:Router,private http: HttpClient){}
+  constructor (private router:Router,private http: HttpClient,private cartService: CartService){}
 
 
 
@@ -40,10 +41,12 @@ export class ProfileComponent implements OnInit{
       console.log('No userId found in localStorage');
     }
   }
-  
+    
   logout(){
     localStorage.clear();
     this.router.navigate(['/login']);
+    this.cartService.clearCart();
+
   }
 
 }

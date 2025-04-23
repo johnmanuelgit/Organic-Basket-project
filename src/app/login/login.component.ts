@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import {Router, RouterLink, RouterModule } from '@angular/router';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-constructor (private http:HttpClient,private router:Router){
+constructor (private http:HttpClient,private router:Router ,private cartService:CartService){
   this.loginForm = new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
     password:new FormControl('',[
@@ -43,6 +44,7 @@ login() {
     next: (res) => {
       localStorage.setItem('userId', res.user._id);
       localStorage.setItem('token', res.token);
+      this.cartService.fetchCartFromBackend();
       alert('Login successful!');
       this.router.navigate(['/home']);
     },
