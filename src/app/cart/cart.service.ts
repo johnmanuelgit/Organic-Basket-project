@@ -1,4 +1,3 @@
-// cart.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -9,15 +8,40 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CartService {
   private cartItems: any[] = [];
   private cartSubject = new BehaviorSubject<any[]>([]);
+  private cartItemsCountSubject = new BehaviorSubject<number>(0);
   private apiUrl = 'https://bakendrepo.onrender.com/cart';
   
+  // Add these properties to fix the errors
+  cartItemsCount$: Observable<number>;
+  
   constructor(private http: HttpClient) {
+    // Initialize the observable
+    this.cartItemsCount$ = this.cartItemsCountSubject.asObservable();
+    
     // Load cart from localStorage on service initialization
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       this.cartItems = JSON.parse(savedCart);
       this.cartSubject.next(this.cartItems);
+      this.updateCartItemsCount();
     }
+  }
+  
+  // Add this method to fix the error
+  fetchCartFromBackend(): Observable<any> {
+    const user = this.getUser();
+    if (user && user._id) {
+      return this.http.get(`${this.apiUrl}/${user._id}`);
+    }
+    return new Observable(observer => {
+      observer.next([]);
+      observer.complete();
+    });
+  }
+  
+  private updateCartItemsCount() {
+    const count = this.cartItems.reduce((total, item) => total + item.quantity, 0);
+    this.cartItemsCountSubject.next(count);
   }
   
   getCart(): any[] {
@@ -81,6 +105,7 @@ export class CartService {
     // Update localStorage
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
     this.cartSubject.next(this.cartItems);
+    this.updateCartItemsCount();
     
     // If user is logged in, sync with backend
     const user = this.getUser();
@@ -106,6 +131,7 @@ export class CartService {
       existingItem.quantity = newQuantity;
       localStorage.setItem('cart', JSON.stringify(this.cartItems));
       this.cartSubject.next(this.cartItems);
+      this.updateCartItemsCount();
     }
     
     // Update backend if user is logged in
@@ -126,6 +152,7 @@ export class CartService {
     this.cartItems = [];
     localStorage.removeItem('cart');
     this.cartSubject.next(this.cartItems);
+    this.updateCartItemsCount();
     
     // Clear from backend if user is logged in
     const user = this.getUser();
