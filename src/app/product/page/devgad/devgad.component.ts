@@ -119,7 +119,7 @@ export class DevgadComponent implements OnInit, OnDestroy {
 
   buyProduct(){
     const amount =this.price*this.quantity;
-    this.http.post<any>('http://localhost:3000/payment/create-order',{
+    this.http.post<any>('https://bakendrepo.onrender.com/payment/create-order',{
       amount:amount,
       currency:'INR'
     }).subscribe(order=>{

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+declare var Razorpay: any;
 
 @Injectable({
   providedIn: 'root'
@@ -165,9 +166,36 @@ export class CartService {
   }
   
   buyProduct(totalPrice: number) {
-    // Implement your buy logic here
-    console.log(`Processing purchase for ${totalPrice}`);
-    // Clear cart after purchase
-    this.clearCart();
+  this.http.post<any>('https://bakendrepo.onrender.com/payment/create-order',{
+    amount:totalPrice,
+    currency:'INR'
+  }).subscribe(order=>{
+    const options = {
+      key:'rzp_test_QIN4sfPHDDt9hq',
+      amount:order.amount,
+      currency:order.currency,
+      name:'John Manuvel',
+      description:'Welcome',
+      order_id:order.id,
+      handler:(response:any)=>{
+        console.log('Payment Successfull!',response);
+        alert('Payment Successfull!');
+      },
+      prefill:{
+        name:'John Manuvel',
+        email:'sjohnmanuelpc@gmail.com',
+        contact:'1234567890'
+      },
+      theme:{
+        color:'#3399cc'
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();},
+    error =>{
+      console.error('Order creation failed', error);
+  })
   }
 }
+
