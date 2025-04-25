@@ -1,88 +1,146 @@
-import { HttpClient } from '@angular/common/http';
+// cart.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
-interface CartItem {
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-}
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartService {
-  private cart: CartItem[] = [];
-  private cartItemsCount = new BehaviorSubject<number>(0);
-  cartItemsCount$ = this.cartItemsCount.asObservable();
-
+  private cartItems: any[] = [];
+  private cartSubject = new BehaviorSubject<any[]>([]);
+  private apiUrl = 'https://bakendrepo.onrender.com/cart';
+  
   constructor(private http: HttpClient) {
-    this.loadCart();
-    this.updateCartCount(this.getTotalItemCount());
-  }
-
-  private saveCart() {
-    localStorage.setItem('cart', JSON.stringify(this.cart));
-  }
-
-  private loadCart() {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      this.cart = JSON.parse(storedCart);
+    // Load cart from localStorage on service initialization
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      this.cartItems = JSON.parse(savedCart);
+      this.cartSubject.next(this.cartItems);
     }
   }
-
-  private getTotalItemCount(): number {
-    return this.cart.reduce((total, item) => total + item.quantity, 0);
+  
+  getCart(): any[] {
+    return this.cartItems;
   }
-
-  private updateCartCount(count: number) {
-    this.cartItemsCount.next(count);
+  
+  getCartObservable(): Observable<any[]> {
+    return this.cartSubject.asObservable();
   }
-
-  getCart() {
-    return this.cart;
-  }
-
-  addToCart(item: CartItem) {
-    const existingItem = this.cart.find(cartItem => cartItem.name === item.name);
-    if (existingItem) {
-      existingItem.quantity += item.quantity;
-    } else {
-      this.cart.push(item);
-    }
-    this.saveCart();
-    this.updateCartCount(this.getTotalItemCount());
-
-    const userId = localStorage.getItem('userId')
-    if(userId){
-      const data = {
-        ...item,
-        userId:userId,
-      };
-      this.http.post('https://bakendrepo.onrender.com/api/cart',data).subscribe({
-        next:()=> console.log('Item Saved To Backend.'),
-        error:(err)=>console.error('failed to save item to backend',err)
+  
+  // Sync with backend if user is logged in
+  syncWithBackend() {
+    const user = this.getUser();
+    if (user && user._id && this.cartItems.length > 0) {
+      // For each item in local cart, send to backend
+      this.cartItems.forEach(item => {
+        this.http.post(this.apiUrl, {
+          userId: user._id,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity
+        }).subscribe({
+          next: () => console.log('Item synced with backend'),
+          error: (err) => console.error('Sync error', err)
+        });
       });
     }
-  };
-  fetchCartFromBackend(){
-const userId = localStorage.getItem('userId');
-this.http.get<CartItem[]>(`https://bakendrepo.onrender.com/api/cart/${userId}`).subscribe({
-  next: (cartItems) => {
-    this.cart = cartItems;
-    this.saveCart(); // Optionally save it to localStorage
-    this.updateCartCount(this.getTotalItemCount());
-  },
-  error: (err) => console.error('Failed to fetch cart from backend:', err),
-});
-
   }
-
+  
+  // Get user from localStorage
+  getUser() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        return JSON.parse(userJson);
+      } catch (e) {
+        console.error('Error parsing user JSON', e);
+        return null;
+      }
+    }
+    return null;
+  }
+  
+  // Add item to cart (local + backend if logged in)
+  addToCart(product: any) {
+    const existingItem = this.cartItems.find(item => item.name === product.name);
+    
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      const newItem = {
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        quantity: 1
+      };
+      this.cartItems.push(newItem);
+    }
+    
+    // Update localStorage
+    localStorage.setItem('cart', JSON.stringify(this.cartItems));
+    this.cartSubject.next(this.cartItems);
+    
+    // If user is logged in, sync with backend
+    const user = this.getUser();
+    if (user && user._id) {
+      this.http.post(this.apiUrl, {
+        userId: user._id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        quantity: existingItem ? existingItem.quantity : 1
+      }).subscribe({
+        next: () => console.log('Item added to backend cart'),
+        error: (err) => console.error('Add to cart error', err)
+      });
+    }
+  }
+  
+  // Update quantity in both local storage and backend
+  updateQuantity(item: any, newQuantity: number) {
+    // Update local
+    const existingItem = this.cartItems.find(i => i.name === item.name);
+    if (existingItem) {
+      existingItem.quantity = newQuantity;
+      localStorage.setItem('cart', JSON.stringify(this.cartItems));
+      this.cartSubject.next(this.cartItems);
+    }
+    
+    // Update backend if user is logged in
+    const user = this.getUser();
+    if (user && user._id) {
+      // For simplicity, we'll use the name as identifier since items might not have _id
+      this.http.put(`${this.apiUrl}/${user._id}/updateByName`, {
+        productName: item.name,
+        quantity: newQuantity
+      }).subscribe({
+        next: () => console.log('Quantity updated in backend'),
+        error: (err) => console.error('Update quantity error', err)
+      });
+    }
+  }
+  
   clearCart() {
-    this.cart = [];
+    this.cartItems = [];
     localStorage.removeItem('cart');
-    this.updateCartCount(0);
+    this.cartSubject.next(this.cartItems);
+    
+    // Clear from backend if user is logged in
+    const user = this.getUser();
+    if (user && user._id) {
+      this.http.delete(`${this.apiUrl}/${user._id}`).subscribe({
+        next: () => console.log('Backend cart cleared'),
+        error: (err) => console.error('Clear cart error', err)
+      });
+    }
+  }
+  
+  buyProduct(totalPrice: number) {
+    // Implement your buy logic here
+    console.log(`Processing purchase for ${totalPrice}`);
+    // Clear cart after purchase
+    this.clearCart();
   }
 }

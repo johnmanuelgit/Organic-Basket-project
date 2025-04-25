@@ -1,9 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import productsData from '../devgad/products.json';
-import { CartService } from '../../../cart/cart.service';
+import { CartService } from '../../../cart/cart.service'; 
+import { HttpClient } from '@angular/common/http';
+declare var Razorpay: any;
+
 @Component({
   selector: 'app-devgad',
   standalone: true,
@@ -21,8 +24,10 @@ export class DevgadComponent implements OnInit, OnDestroy {
   isOpen = false;
   filteredProducts: any[] = [];
 
+
+
   
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private http:HttpClient) {}
 
   addToCart(product: any, quantity: number) {
     const token = localStorage.getItem('token');
@@ -110,5 +115,39 @@ export class DevgadComponent implements OnInit, OnDestroy {
   }
    toggleFAQ() {
     this.isOpens = !this.isOpens;
+  }
+
+  buyProduct(){
+    const amount =this.price*this.quantity;
+    this.http.post<any>('http://localhost:3000/payment/create-order',{
+      amount:amount,
+      currency:'INR'
+    }).subscribe(order=>{
+      const options = {
+        key:'rzp_test_QIN4sfPHDDt9hq',
+        amount:order.amount,
+        currency:order.currency,
+        name:'John Manuvel',
+        description:'Welcome',
+        order_id:order.id,
+        handler:(response:any)=>{
+          console.log('Payment Successfull!',response);
+          alert('Payment Successfull!');
+        },
+        prefill:{
+          name:'John Manuvel',
+          email:'sjohnmanuelpc@gmail.com',
+          contact:'1234567890'
+        },
+        theme:{
+          color:'#3399cc'
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();},
+      error =>{
+        console.error('Order creation failed', error);
+    })
   }
 }

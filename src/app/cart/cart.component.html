@@ -16,16 +16,19 @@
       <div *ngFor="let item of cartItems">
         <img [src]="item.image" class="w-20 h-20" />
         <p>
-          {{ item.name }} - ₹{{ item.price }} x {{ item.quantity }}
+          {{ item.name }} - ₹{{ item.price }} x  <button (click)="decreaseQuantity(item)" class="px-3 py-1 border rounded">-</button> {{ item.quantity }} <button (click)="increaseQuantity(item)" class="px-3 py-1 border rounded">+</button>
         </p>
       </div>
   
       <p class="text-xl font-bold mt-4">Total Price: ₹{{ totalPrice }}</p>
   
-      <button (click)="clearCart()" class="bg-red-500 text-white px-4 py-2 rounded">
+      <button (click)="clearCart()" class="bg-red-500 text-white px-4 py-2 rounded mt-5">
         Clear Cart
       </button>
-  
+     
+      <button (click)="buy()" class="bg-blue-500 text-white px-9 py-2 rounded ml-2">
+        Buy
+      </button>
       <button
         [routerLink]="['/products']"
         class="flex items-center px-7 gap-2 py-3 mt-8 bg-orange-500 text-white rounded-full text-lg font-semibold hover:bg-orange-600 hover:scale-110"
