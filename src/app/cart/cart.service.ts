@@ -10,7 +10,7 @@ export class CartService {
   private cartItems: any[] = [];
   private cartSubject = new BehaviorSubject<any[]>([]);
   private cartItemsCountSubject = new BehaviorSubject<number>(0);
-  private apiUrl = 'https://bakendrepo.onrender.com/api/cart';
+  private apiUrl = 'https://bakendrepo.onrender.com/cart';
   
   // Add these properties to fix the errors
   cartItemsCount$: Observable<number>;
@@ -54,26 +54,19 @@ export class CartService {
     return this.cartSubject.asObservable();
   }
   
-  // // Sync with backend if user is logged in
-  // syncWithBackend() {
-  //   const user = this.getUser();
-  //   if (user && user._id && this.cartItems.length > 0) {
-  //     // For each item in local cart, send to backend
-  //     this.cartItems.forEach(item => {
-  //       this.http.post(this.apiUrl, {
-  //         userId: user._id,
-  //         name: item.name,
-  //         image: item.image,
-  //         price: item.price,
-  //         quantity: item.quantity
-  //       }).subscribe({
-  //         next: () => console.log('Item synced with backend'),
-  //         error: (err) => console.error('Sync error', err)
-  //       });
-  //     });
-  //   }
-  // }
-  
+  // Sync with backend if user is logged in
+syncWithBackend() {
+  const user = this.getUser();
+  if (user && user._id && this.cartItems.length > 0) {
+    this.http.post(`${this.apiUrl}/sync/${user._id}`, {
+      items: this.cartItems
+    }).subscribe({
+      next: () => console.log('Cart bulk synced successfully'),
+      error: (err) => console.error('Sync error', err)
+    });
+  }
+}
+
   // Get user from localStorage
   getUser() {
     const userJson = localStorage.getItem('user');
@@ -91,7 +84,6 @@ export class CartService {
   // Add item to cart (local + backend if logged in)
   addToCart(product: any) {
     const existingItem = this.cartItems.find(item => item.name === product.name);
-    
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
@@ -103,13 +95,9 @@ export class CartService {
       };
       this.cartItems.push(newItem);
     }
-    
-    // Update localStorage
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
     this.cartSubject.next(this.cartItems);
     this.updateCartItemsCount();
-    
-    // If user is logged in, sync with backend
     const user = this.getUser();
     if (user && user._id) {
       this.http.post(this.apiUrl, {
@@ -118,13 +106,24 @@ export class CartService {
         image: product.image,
         price: product.price,
         quantity: existingItem ? existingItem.quantity : 1
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       }).subscribe({
-        next: () => console.log('Item added to backend cart'),
-        error: (err) => console.error('Add to cart error', err)
+        next: () => {
+          console.log('Item added to backend cart');
+          this.syncWithBackend();
+        },
+        error: (err) => {
+          console.error('Add to cart error:', err);
+          alert('Failed to add item to backend cart. Item saved locally.');
+          this.syncWithBackend();
+        }
       });
+    } else {
+      console.warn('User not logged in or user ID missing');
+      alert('Item saved locally. Please log in to sync with backend.');
     }
   }
-  
   // Update quantity in both local storage and backend
   updateQuantity(item: any, newQuantity: number) {
     // Update local
@@ -140,10 +139,11 @@ export class CartService {
     const user = this.getUser();
     if (user && user._id) {
       // For simplicity, we'll use the name as identifier since items might not have _id
-      this.http.put(`${this.apiUrl}/${user._id}`, {
+      this.http.put(`${this.apiUrl}/${user._id}/updateByName`, {
         productName: item.name,
         quantity: newQuantity
-      }).subscribe({
+    })
+    .subscribe({
         next: () => console.log('Quantity updated in backend'),
         error: (err) => console.error('Update quantity error', err)
       });
