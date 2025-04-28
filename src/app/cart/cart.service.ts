@@ -54,25 +54,25 @@ export class CartService {
     return this.cartSubject.asObservable();
   }
   
-  // Sync with backend if user is logged in
-  syncWithBackend() {
-    const user = this.getUser();
-    if (user && user._id && this.cartItems.length > 0) {
-      // For each item in local cart, send to backend
-      this.cartItems.forEach(item => {
-        this.http.post(this.apiUrl, {
-          userId: user._id,
-          name: item.name,
-          image: item.image,
-          price: item.price,
-          quantity: item.quantity
-        }).subscribe({
-          next: () => console.log('Item synced with backend'),
-          error: (err) => console.error('Sync error', err)
-        });
-      });
-    }
-  }
+  // // Sync with backend if user is logged in
+  // syncWithBackend() {
+  //   const user = this.getUser();
+  //   if (user && user._id && this.cartItems.length > 0) {
+  //     // For each item in local cart, send to backend
+  //     this.cartItems.forEach(item => {
+  //       this.http.post(this.apiUrl, {
+  //         userId: user._id,
+  //         name: item.name,
+  //         image: item.image,
+  //         price: item.price,
+  //         quantity: item.quantity
+  //       }).subscribe({
+  //         next: () => console.log('Item synced with backend'),
+  //         error: (err) => console.error('Sync error', err)
+  //       });
+  //     });
+  //   }
+  // }
   
   // Get user from localStorage
   getUser() {
@@ -112,31 +112,15 @@ export class CartService {
     // If user is logged in, sync with backend
     const user = this.getUser();
     if (user && user._id) {
-      const quantityToAdd = existingItem ? existingItem.quantity : 1;
-      
       this.http.post(this.apiUrl, {
         userId: user._id,
         name: product.name,
         image: product.image,
         price: product.price,
-        quantity: quantityToAdd
+        quantity: existingItem ? existingItem.quantity : 1
       }).subscribe({
-        next: (response) => {
-          console.log('Item added to backend cart', response);
-          // If successful, fetch the latest cart from backend to ensure sync
-          this.fetchCartFromBackend().subscribe(backendItems => {
-            if (backendItems && backendItems.length > 0) {
-              this.cartItems = backendItems;
-              localStorage.setItem('cart', JSON.stringify(this.cartItems));
-              this.cartSubject.next(this.cartItems);
-              this.updateCartItemsCount();
-            }
-          });
-        },
-        error: (err) => {
-          console.error('Add to cart error', err);
-          // Optionally retry or show error to user
-        }
+        next: () => console.log('Item added to backend cart'),
+        error: (err) => console.error('Add to cart error', err)
       });
     }
   }
@@ -155,7 +139,8 @@ export class CartService {
     // Update backend if user is logged in
     const user = this.getUser();
     if (user && user._id) {
-      this.http.put(`${this.apiUrl}/${user._id}/updateByName`, {
+      // For simplicity, we'll use the name as identifier since items might not have _id
+      this.http.put(`${this.apiUrl}/${user._id}`, {
         productName: item.name,
         quantity: newQuantity
       }).subscribe({
@@ -164,14 +149,7 @@ export class CartService {
       });
     }
   }
-
-  // In cart.service.ts
-updateLocalCart(items: any[]): void {
-  this.cartItems = items;
-  localStorage.setItem('cart', JSON.stringify(items));
-  this.cartSubject.next(items);
-  this.updateCartItemsCount();
-}
+  
   clearCart() {
     this.cartItems = [];
     localStorage.removeItem('cart');
@@ -220,23 +198,5 @@ updateLocalCart(items: any[]): void {
       console.error('Order creation failed', error);
   })
   }
-  removeItem(item: any) {
-    const user = this.getUser();
-    if (user && user._id) {
-      this.http.delete(`${this.apiUrl}/${user._id}/item/${item.name}`)
-        .subscribe({
-          next: () => {
-            console.log('Item removed from backend');
-            // Local cart la yum remove panna
-            this.cartItems = this.cartItems.filter(cartItem => cartItem.name !== item.name);
-            localStorage.setItem('cart', JSON.stringify(this.cartItems));
-            this.cartSubject.next(this.cartItems);
-            this.updateCartItemsCount();
-          },
-          error: (err) => console.error('Remove item error', err)
-        });
-    }
-  }
-  
 }
 

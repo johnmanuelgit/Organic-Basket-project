@@ -18,7 +18,6 @@
         <p>
           {{ item.name }} - ₹{{ item.price }} x  <button (click)="decreaseQuantity(item)" class="px-3 py-1 border rounded">-</button> {{ item.quantity }} <button (click)="increaseQuantity(item)" class="px-3 py-1 border rounded">+</button>
         </p>
-        <button (click)="remove(item)" class="bg-blue-500 text-white px-9 py-2 rounded ml-2">Remove</button>
       </div>
   
       <p class="text-xl font-bold mt-4">Total Price: ₹{{ totalPrice }}</p>
