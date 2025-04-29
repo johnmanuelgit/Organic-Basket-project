@@ -45,6 +45,7 @@ login() {
     next: (res) => {
       localStorage.setItem('userId', res.user._id);
       localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
       this.cartService.fetchCartFromBackend();
       alert('Login successful!');
       this.router.navigate(['/home']);

@@ -29,6 +29,31 @@ export class DevgadComponent implements OnInit, OnDestroy {
   
   constructor(private cartService: CartService, private http:HttpClient) {}
 
+  addToCart(product: any, quantity: number) {
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      alert('Please login to add products to the cart.');
+      return;
+    }
+  
+    if (!product) {
+      console.error('Product is undefined or null');
+      return;
+    }
+  
+    const item = {
+      name: product.name,
+      image: product.image,
+      price: this.price,
+      quantity: quantity,
+    };
+
+    this.cartService.addToCart(item);
+
+    alert(`${product.name} added to cart!`);
+  }
+  
 
   ngOnInit() {
     this.products = productsData.products;
@@ -92,43 +117,6 @@ export class DevgadComponent implements OnInit, OnDestroy {
    toggleFAQ() {
     this.isOpens = !this.isOpens;
   }
-
-  addToCart(product: any, quantity: number) {
-    const token = localStorage.getItem('token');
-  
-    if (!token) {
-      alert('Please login to add products to the cart.');
-      return;
-    }
-  
-    if (!product) {
-      console.error('Product is undefined or null');
-      return;
-    }
-  
-    const item = {
-      name: product.name,
-      image: product.image,
-      price: this.price,
-      quantity: quantity,
-    };
-  
-    // Local cart
-    this.cartService.addToCart(item);
-  
-    // Send to Backend
-    this.http.post('http://localhost:5000/cart/add', item).subscribe(
-      (response) => {
-        console.log('Item added to server cart:', response);
-        alert(`${product.name} added to cart successfully!`);
-      },
-      (error) => {
-        console.error('Failed to add item to server cart', error);
-        alert('Something went wrong! Please try again.');
-      }
-    );
-  }
-  
 
   buyProduct(){
     const amount =this.price*this.quantity;
