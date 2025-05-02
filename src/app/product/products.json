@@ -67,6 +67,24 @@
       "image": "assets/image/product-7.webp",
       "category": "Alphonso Mango",
       "route": "/ratna"
+    },
+    {
+      "name": "Devgad Alphonso Mango",
+      "image": "assets/image/product -1.webp",
+      "category":  "Maharashtra",
+      "route": "/devgad"
+    },
+    {
+      "name": "Goa Mancurad Mango",
+      "image": "assets/image/product-2.webp",
+      "category": "Maharashtra",
+      "route": "/goa"
+    },
+    {
+      "name": "Kesar Mango",
+      "image": "assets/image/product-3.webp",
+      "category":  "Maharashtra",
+      "route": "/kesar"
     }
   ]
 }

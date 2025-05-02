@@ -48,14 +48,14 @@ export class AboutComponent {
       name: "Jaydeep Bagul",
       location: "Pune",
       image: "https://themangobasket.com/wp-content/webp-express/webp-images/uploads/2021/01/jaydeep-bagul.png.webp",
-      quote: "I ordered mangoes from Mango Basket for my family and they loved it. It is very fresh, healthy and delicious."
+      quote: "The quality and freshness were not compromised in any way, It is one of the best batches of mangoes I have had in a while. Thank you team Mango Basket."
     },
     {
       id: 3,
       name: "Meenakshi Kharat",
       location: "Ratnagiri",
       image: "https://themangobasket.com/wp-content/webp-express/webp-images/uploads/2021/01/meenakshi-kharat.png.webp",
-      quote: "I ordered mangoes from Mango Basket for my family and they loved it. It is very fresh, healthy and delicious."
+      quote: "I ordered a few dozens of alphonso mangoes from Mango Basket. I am a health-conscious person so I always prefer eating residue free fruits. I found their mangoes to be healthy as well as delicious. I would definitely order more from them."
     },
     {
       id: 4,
@@ -69,14 +69,15 @@ export class AboutComponent {
       name: "Meenakshi Kharat",
       location: "Ratnagiri",
       image: "https://themangobasket.com/wp-content/webp-express/webp-images/uploads/2021/01/meenakshi-kharat.png.webp",
-      quote: "I ordered mangoes from Mango Basket for my family and they loved it. It is very fresh, healthy and delicious."
+      quote: "I ordered a few dozens of alphonso mangoes from Mango Basket. I am a health-conscious person so I always prefer eating residue free fruits. I found their mangoes to be healthy as well as delicious. I would definitely order more from them."
+
     },
     {
       id: 6,
       name: "Jaydeep Bagul",
       location: "Pune",
       image: "https://themangobasket.com/wp-content/webp-express/webp-images/uploads/2021/01/jaydeep-bagul.png.webp",
-      quote: "I ordered mangoes from Mango Basket for my family and they loved it. It is very fresh, healthy and delicious."
+     quote: "The quality and freshness were not compromised in any way, It is one of the best batches of mangoes I have had in a while. Thank you team Mango Basket."
     }
 
   ];

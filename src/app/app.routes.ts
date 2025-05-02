@@ -16,6 +16,11 @@ import { BlogComponent } from './blog/blog.component';
 import { PageComponent } from './blog/page/page.component';
 import { RatnagiriAlphonsoComponent } from './product/page/ratnagiri-alphonso/ratnagiri-alphonso.component';
 import { ProfileComponent } from './profile/profile.component';
+import { TermsComponent } from './terms/terms.component';
+import { ReturnRefundComponent } from './return-refund/return-refund.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { WikiComponent } from './wiki/wiki.component';
+import { RecipesComponent } from './recipes/recipes.component';
 
 
 export const routes: Routes = [{ path: "", component: HomeComponent },
@@ -28,6 +33,11 @@ export const routes: Routes = [{ path: "", component: HomeComponent },
 { path: "about", component: AboutComponent },
 { path: "blog", component: BlogComponent },
 {path:"profile",component:ProfileComponent},
+{path:"term&cond",component:TermsComponent},
+{path:"return&refund",component:ReturnRefundComponent},
+{path:"privacy",component:PrivacyComponent},
+{path:"wiki",component:WikiComponent},
+{path:"recipes",component:RecipesComponent},
 
 // product details page
 { path: "devgad", component: DevgadComponent },
