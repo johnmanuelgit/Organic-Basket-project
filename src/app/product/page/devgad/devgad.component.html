@@ -36,11 +36,20 @@
       <!-- Select Grade -->
       <label class="block mt-4">Select Grade</label>
       <div class="flex space-x-4">
-        <span class="p-2 border rounded bg-red-200 cursor-pointer">A1</span>
-        <span class="p-2 border rounded bg-red-200 cursor-pointer">A2</span>
-        <span class="p-2 border rounded bg-red-200 cursor-pointer">A3</span>
+        <span
+        *ngFor="let grade of grades"
+        class="p-2 border rounded cursor-pointer"
+        [ngClass]="{
+          'bg-red-500 text-white': selectedGrade === grade,
+          'bg-red-200': selectedGrade !== grade
+        }"
+        (click)="selectGrade(grade)"
+      >
+        {{ grade }}
+      </span>
+      
       </div>
-
+      
       <!-- Quantity -->
       <label class="block mt-4">Quantity (in dz.)</label>
       <div class="flex items-center">

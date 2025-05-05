@@ -24,6 +24,8 @@ export class DevgadComponent implements OnInit, OnDestroy {
   isOpen = false;
   filteredProducts: any[] = [];
   selectedWeek: string | null = null;
+  grades: string[] = ['A1', 'A2', 'A3'];
+selectedGrade: string = '';
 
 
 
@@ -47,7 +49,7 @@ export class DevgadComponent implements OnInit, OnDestroy {
       name: product.name,
       image: product.image,
       price: this.price,
-      quantity: quantity,
+      quantity: quantity
     };
 
     this.cartService.addToCart(item);
@@ -71,6 +73,9 @@ export class DevgadComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectGrade(grade: string) {
+    this.selectedGrade = grade;
+  }
   // Navigate to the next product
   nextProduct() {
     this.currentStartIndex = (this.currentStartIndex + 1) % this.products.length;

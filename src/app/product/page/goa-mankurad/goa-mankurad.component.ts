@@ -23,6 +23,8 @@ export class GoaMankuradComponent implements OnInit, OnDestroy {
   isOpen = false;
   filteredProducts: any[] = [];
   selectedWeek: string | null = null;
+  grades: string[] = ['A1', 'A2', 'A3'];
+  selectedGrade: string = '';
 
   
   constructor(private cartService: CartService, private http:HttpClient) {}
@@ -51,7 +53,9 @@ export class GoaMankuradComponent implements OnInit, OnDestroy {
     alert(`${product.name} added to cart!`);
   }
   
-
+  selectGrade(grade: string) {
+    this.selectedGrade = grade;
+  }
   ngOnInit() {
     this.products = productsData.products;
     this.filteredProducts = [...this.products]; // Initialize filteredProducts
