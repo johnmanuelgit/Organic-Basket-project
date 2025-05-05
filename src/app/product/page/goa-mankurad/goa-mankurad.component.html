@@ -12,11 +12,10 @@
       <h1 class="text-4xl font-bold text-green-700">Goa Mankurad (Mancurad)<br> Mango</h1>
 
       <!-- Select Week -->
-
       <label class="block mt-4">Select Week </label>
       <div class="relative w-full">
         <button (click)="toggleDropdown()" class="border rounded px-3 py-2 text-left">
-          Choose an option
+          {{ selectedWeek || 'Choose an option' }}
           <svg class="inline-block ml-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"
             stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.25 9.25L10 14l4.75-4.75" />
@@ -26,13 +25,11 @@
         <div *ngIf="isOpen"
           class="absolute right-0 mt-2 w-full bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition duration-300 ease-out">
           <div class="py-1">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">14 April to 21 April 22 (Week
-              5)</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">23 April to 29 April (Week
-              6)</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">30 April to 06 May (Week 7)</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">07 May to 13 May (Week 8)</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">14 May to 21 May (Week 9)</a>
+            <div (click)="selectWeek('14 April to 21 April 22 (Week 5)')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">14 April to 21 April 22 (Week 5)</div>
+            <div (click)="selectWeek('23 April to 29 April (Week 6)')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">23 April to 29 April (Week 6)</div>
+            <div (click)="selectWeek('30 April to 06 May (Week 7)')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">30 April to 06 May (Week 7)</div>
+            <div (click)="selectWeek('07 May to 13 May (Week 8)')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">07 May to 13 May (Week 8)</div>
+            <div (click)="selectWeek('14 May to 21 May (Week 9)')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">14 May to 21 May (Week 9)</div>
           </div>
         </div>
       </div>

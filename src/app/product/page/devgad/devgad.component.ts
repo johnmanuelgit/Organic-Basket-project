@@ -23,6 +23,7 @@ export class DevgadComponent implements OnInit, OnDestroy {
   interval: any;
   isOpen = false;
   filteredProducts: any[] = [];
+  selectedWeek: string | null = null;
 
 
 
@@ -57,7 +58,7 @@ export class DevgadComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.products = productsData.products;
-    this.filteredProducts = [...this.products]; // Initialize filteredProducts
+    this.filteredProducts = [...this.products];
     
     // Auto-pagination every 3 seconds
     this.interval = setInterval(() => {
@@ -74,7 +75,11 @@ export class DevgadComponent implements OnInit, OnDestroy {
   nextProduct() {
     this.currentStartIndex = (this.currentStartIndex + 1) % this.products.length;
   }
-
+  selectWeek(week: string) {
+    this.selectedWeek = week; // Update the selected week
+    this.isOpen = false; // Close the dropdown
+  }
+  
   // Decrease quantity
   decreaseQuantity() {
     if (this.quantity > 1) {

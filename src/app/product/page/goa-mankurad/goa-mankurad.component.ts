@@ -22,6 +22,7 @@ export class GoaMankuradComponent implements OnInit, OnDestroy {
   interval: any;
   isOpen = false;
   filteredProducts: any[] = [];
+  selectedWeek: string | null = null;
 
   
   constructor(private cartService: CartService, private http:HttpClient) {}
@@ -83,7 +84,10 @@ export class GoaMankuradComponent implements OnInit, OnDestroy {
   increaseQuantity() {
     this.quantity++;
   }
-
+  selectWeek(week: string) {
+    this.selectedWeek = week; // Update the selected week
+    this.isOpen = false; // Close the dropdown
+  }
   // Toggle dropdown menu
   toggleDropdown() {
     this.isOpen = !this.isOpen;
