@@ -123,8 +123,10 @@ export class PayariMangoesComponent implements OnInit, OnDestroy {
   toggleFAQs() {
     this.isOpenss=!this.isOpenss
   }
+  loading = false;
   buyProduct(){
     const amount =this.price*this.quantity;
+    this.loading =true;
     this.http.post<any>('https://bakendrepo.onrender.com/payment/create-order',{
       amount:amount,
       currency:'INR'
@@ -147,7 +149,12 @@ export class PayariMangoesComponent implements OnInit, OnDestroy {
         },
         theme:{
           color:'#3399cc'
-        }
+        },
+        modal: {
+          ondismiss: () => {
+            console.log('Payment popup closed by user');
+            this.loading = false; // ✅ stop loading if user cancels
+          },}
       };
 
       const rzp = new Razorpay(options);

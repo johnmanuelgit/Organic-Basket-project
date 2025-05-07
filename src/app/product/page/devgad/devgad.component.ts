@@ -127,9 +127,10 @@ selectedGrade: string = '';
    toggleFAQ() {
     this.isOpens = !this.isOpens;
   }
-
+  loading = false;
   buyProduct(){
     const amount =this.price*this.quantity;
+    this.loading=true;
     this.http.post<any>('https://bakendrepo.onrender.com/payment/create-order',{
       amount:amount,
       currency:'INR'
@@ -152,7 +153,12 @@ selectedGrade: string = '';
         },
         theme:{
           color:'#3399cc'
-        }
+        },
+        modal: {
+          ondismiss: () => {
+            console.log('Payment popup closed by user');
+            this.loading = false; 
+          },}
       };
 
       const rzp = new Razorpay(options);
