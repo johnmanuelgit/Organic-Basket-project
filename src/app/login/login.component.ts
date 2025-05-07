@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import {Router, RouterLink, RouterModule } from '@angular/router';
 import { CartService } from '../cart/cart.service';
+import { ToastService } from '../service/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-constructor (private http:HttpClient,private router:Router ,private cartService:CartService){
+constructor (private http:HttpClient,private router:Router ,private cartService:CartService, private toast: ToastService){
   this.loginForm = new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
     password:new FormControl('',[
@@ -47,16 +48,16 @@ login() {
       localStorage.setItem('token', res.token);
       localStorage.setItem('user', JSON.stringify(res.user));
       this.cartService.fetchCartFromBackend();
-      alert('Login successful!');
+      this.toast.success('Login successful!');
       this.router.navigate(['/home']);
     },
     error: (err) => {
       if (err.status === 404) {
-        alert("User not found");
+        this.toast.error('User not found');
       } else if (err.status === 401) {
-        alert("Incorrect password");
+        this.toast.error('Incorrect password');
       } else {
-        alert("Login failed");
+        this.toast.error('Login failed');
       }
     }
   });
