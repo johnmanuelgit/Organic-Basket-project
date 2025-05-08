@@ -184,39 +184,26 @@ export class CartService {
     // Update backend if user is logged in
     const user = this.getUser();
     if (user && user._id) {
-      // First try to find the item ID if available
-      const itemId = item._id || (existingItem ? existingItem._id : null);
-      
-      if (itemId) {
-        // If we have the item ID, use the more specific endpoint
-        this.http.put(`${this.apiUrl}/${user._id}/${itemId}`, {
-          quantity: newQuantity
+      // FIXED: Simplified update approach using a single consistent endpoint
+      this.http.put(`${this.apiUrl}/update`, {
+        userId: user._id,
+        productName: item.name,
+        quantity: newQuantity
+      })
+      .pipe(
+        catchError(error => {
+          console.error('Error updating quantity in backend:', error);
+          return of(null);
         })
-        .subscribe({
-          next: () => console.log('Quantity updated in backend using itemId'),
-          error: (err) => {
-            console.error('Update quantity by ID error, falling back to name-based update', err);
-            // Fall back to name-based update if ID update fails
-            this.updateQuantityByName(user._id, item.name, newQuantity);
+      )
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            console.log('Quantity updated in backend successfully');
           }
-        });
-      } else {
-        // If no item ID, use the name-based endpoint
-        this.updateQuantityByName(user._id, item.name, newQuantity);
-      }
+        }
+      });
     }
-  }
-  
-  // Helper method for name-based quantity updates
-  private updateQuantityByName(userId: string, productName: string, newQuantity: number) {
-    this.http.put(`${this.apiUrl}/${userId}/updateByName`, {
-      productName: productName,
-      quantity: newQuantity
-    })
-    .subscribe({
-      next: () => console.log('Quantity updated in backend by name'),
-      error: (err) => console.error('Update quantity by name error', err)
-    });
   }
   
   // Remove an item from cart
