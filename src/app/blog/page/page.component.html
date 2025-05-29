@@ -1,13 +1,13 @@
-<div class=" flex w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover overflow-x-hidden">
-    <div class="w-full h-full p-35">
+<div class=" flex  w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover overflow-x-hidden">
+    <div class="w-full h-full mt-30 md:mt-0 md:p-30">
       <div class="flex justify-between items-center mr-20">
         <p class="flex gap-2 text-[#941a28] text-sm">
           <a [routerLink]="['/home']" class="hover:underline">Home</a> ><a [routerLink]="['/blog']" class="hover:underline">Blog</a>><a *ngIf="pagetitle">{{pagetitle}}</a>
         </p>
       </div>
-       <img *ngIf="imageUrls" [src]="imageUrls" alt="Blog Image" class="w-full h-full object-cover">
+       <img *ngIf="imageUrls" [src]="imageUrls" alt="Blog Image" class="w-full h-full object-contain  md:object-cover">
     </div>
-<div class="w-1/2 hidden md:block">
+<div class="w-1/2 hidden md:block md:p-30 ">
     <div class=" flex justify-end">
       <input type="search" placeholder="Search …" value="" class="relative py-2 px-2 w-full bg-white rounded-lg">
       <button class="absolute w-10  h-10 rounded-r-lg bg-[#fb9901]"><img src="{{ imageUrl }}" alt="Mango Image"

@@ -1,8 +1,8 @@
-<div class="bg-[url('assets/image/product-bg.png')]">
-    <div class="py-40 md:px-30">
+<div class="bg-[url('assets/image/product-bg.png')] bg-cover bg-center">
+    <div class="py-20 px-4 sm:py-32 md:px-30">
         <!-- Breadcrumb -->
-        <div class="container mx-auto px-4">
-            <div class="flex items-center text-sm text-[#8b0000]">
+        <div class="container mx-auto">
+            <div class="flex flex-wrap items-center text-sm text-[#8b0000]">
                 <a [routerLink]="['/home']" class="hover:underline">Home</a>
                 <span class="mx-2">›</span>
                 <span>Contact Us</span>
@@ -10,14 +10,15 @@
         </div>
 
         <!-- Main Content -->
-        <div class="container mx-auto px-4 py-8">
-            <h1 class="text-4xl font-bold text-lime-500 mb-8">Contact Us</h1>
+        <div class="container mx-auto py-8 px-4">
+            <h1 class="text-3xl sm:text-4xl font-bold text-lime-500 mb-6 sm:mb-8">Contact Us</h1>
 
-            <div class="grid md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Contact Information -->
                 <div>
                     <div class="flex items-start mb-6">
                         <div class="text-mango-red mr-4">
+                            <!-- Phone Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -25,13 +26,13 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="tel:+919921214789" class="text-[#8b0000] hover:underline text-lg">+91
-                                9921214789</a>
+                            <a href="tel:+919921214789" class="text-[#8b0000] hover:underline text-lg">+91 9921214789</a>
                         </div>
                     </div>
 
                     <div class="flex items-start mb-6">
                         <div class="text-mango-red mr-4">
+                            <!-- Email Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -46,6 +47,7 @@
 
                     <div class="flex items-start mb-8">
                         <div class="text-mango-red mr-4">
+                            <!-- Location Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,7 +58,7 @@
                         </div>
                         <div>
                             <p class="text-[#8b0000] font-medium mb-1">Mango Basket</p>
-                            <p class="text-[#8b0000]">
+                            <p class="text-[#8b0000] text-sm sm:text-base">
                                 Flat No. 10, Ramkrushana Hsg. Soc., 373/A/2,<br>
                                 Ramshastri Prabhune Path, Shaniwar Peth,<br>
                                 Pune, Maharashtra, India - 411030
@@ -65,18 +67,16 @@
                     </div>
 
                     <!-- Map -->
-                    <div class="h-64 bg-gray-200 rounded-md mb-6">
-                        <!-- Replace with actual Google Maps embed code -->
-
+                    <div class="h-64 bg-gray-200 rounded-md overflow-hidden mb-6">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.2516259131958!2d73.8488486142196!3d18.51752788741079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c070794e5f83%3A0xa7d9209ba95cd8f5!2sPaper%20Ln%2C%20Narayan%20Peth%2C%20Pune%2C%20Maharashtra%20411030!5e0!3m2!1sen!2sin!4v1616044319103!5m2!1sen!2sin"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
 
                 <!-- Contact Form -->
-                <div class="bg-white p-6 rounded-lg shadow-sm w-100 md:mx-30 md:mt-0 mt-50">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Send a Message</h2>
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Send a Message</h2>
                     <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
                         <div class="mb-4">
                             <input type="text" formControlName="fullName" placeholder="Full Name*"
@@ -116,7 +116,7 @@
                         </div>
                         <div class="text-left">
                             <button type="submit"
-                                class="bg-orange-500 text-white px-8 py-2 rounded-full hover:bg-orange-600 transition"
+                                class="bg-orange-500 text-white px-6 sm:px-8 py-2 rounded-full hover:bg-orange-600 transition"
                                 [disabled]="contactForm.invalid">
                                 Send
                             </button>
