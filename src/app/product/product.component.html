@@ -59,12 +59,12 @@
           </div>
       
           <!-- Product List -->
-          <div class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+          <div class="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 ">
             <div *ngIf="noResultsFound" class="text-center text-xl font-bold text-red-700">
               No products found matching your search.
             </div>
-            <div *ngFor="let product of filteredProducts" class="flex flex-col items-center">
-              <img [src]="product.image" [alt]="product.name" class="w-full h-60  object-cover hover:scale-101 ">
+            <div *ngFor="let product of filteredProducts" class="flex flex-col md:items-center ">
+              <img [src]="product.image" [alt]="product.name" class="w-full h-60  rounded object-cover hover:scale-101 ">
               <h3 class="text-md text-[#701011] font-semibold mt-2 hover:underline">{{ product.name }}</h3>
               <button [routerLink]="[product.route]"  class="cursor-pointer mt-3 bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">
                 Order Mangoes

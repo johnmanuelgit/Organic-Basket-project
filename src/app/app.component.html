@@ -4,13 +4,13 @@
    <img src="assets\image\home-logo.png" alt="Mango Basket Logo" class="md:-my-15 -my-20 mx-5 md:mx-70 md:w-50 md:h-50 md:py-2 hover:scale-105"[routerLink]="['/home']">
   </div>
   <!-- Menu Button for Mobile -->
-<button (click)="toggleMenu()" class=" absolute right-10 md:hidden text-xl text-[#8b0000] text-center p-10">
+<button (click)="toggleMenu()" class=" absolute left-60 md:hidden text-xl text-[#8b0000] text-center p-10">
   <i class="fas fa-bars"></i>
 </button>
 <!-- Nav Links -->
 <nav
   [ngClass]="{ 'flex': isMenuOpen, 'hidden': !isMenuOpen }"
-  class="flex-col items-center gap-y-4 mt-110 md:mt-0 text-[#8b0000] font-small text-xl p-6 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl "
+  class="flex-col  items-center gap-y-4 mt-120 mr-27 md:mr-0 md:mt-0 text-[#8b0000] font-small text-xl p-10 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl  "
 >
   <a [routerLink]="['home']" routerLinkActive="active-link"
     class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Home</a>
@@ -43,14 +43,14 @@
 </nav>
 </div>
 <router-outlet>
-  <button (click)="scrolltop()" *ngIf="showbutton" class="fixed bottom-5 right-5 w-20 h-20 bg-stone-200 text-5xl text-black rounded-full flex items-center justify-center shadow-lg transition-opacity duration-500 font-bold hover:bg-white z-50">
+  <button (click)="scrolltop()" *ngIf="showbutton" class="fixed bottom-5 my-110 mx-30 md:mx-0 right-5 w-10 h-10 md:w-20 md:h-20 bg-stone-200 text-5xl text-black rounded-full flex items-center justify-center shadow-lg transition-opacity duration-500 font-bold hover:bg-white z-50">
     ↑
   </button>
 </router-outlet>
 <footer>
   <div class="flex w-full h-100">
-    <img src="assets/image/footer.png" class="relative w-full h-full object-cover">
-    <div class="flex flex-col md:flex-row absolute left-10 my-30 md:left-110 text-white p-2 font-small gap-x-8 md:my-40">
+    <img src="assets/image/footer.png" class="relative mt-5 w-full h-full object-cover">
+    <div class="flex flex-col md:flex-row gap-y-4 md:gap-y-0 absolute left-10 my-30 md:left-110 text-white p-2 font-small gap-x-8 md:my-40">
       <a [routerLink]="['home']">Home</a>
       <a [routerLink]="['products']">Products</a>
       <a [routerLink]="['blog']">Blog</a>
@@ -58,12 +58,12 @@
       <a [routerLink]="['/wiki']">Wiki</a>
       <a [routerLink]="['contact']">Contact Us</a>
     </div>
-    <div class="flex flex-col md:flex-row absolute left-60 md:left-110 text-white text-small  gap-x-6 p-5 my-30 md:my-60">
+    <div class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row absolute left-40 md:left-110 text-white text-small  gap-x-6 p-5 my-30 md:my-60">
       <a [routerLink]="['/term&cond']">Terms & Conditions</a>
       <a [routerLink]="['/return&refund']">Return & Refund Policy</a>
       <a [routerLink]="['/privacy']">Privacy Policy</a>
     </div>
-    <div class="flex flex-row md:flex-col md:flex-row absolute left-60 md:left-280 mt-40 p-13 md:p-0 md:mt-50 gap-4">
+    <div class="flex flex-row md:flex-col md:flex-row absolute left-5 md:left-280 mt-45 p-30 md:p-0 md:mt-50 gap-4">
     <!-- Twitter -->
 <li>
   <a href="https://twitter.com/themangobasket/" target="_blank">
@@ -106,9 +106,9 @@
   </a>
 </li>
     </div>
-    <div class="absolute left-70 md:left-230 mt-69 p-6">
+    <div class="absolute md:left-230 mt-65 md:mt-69 p-25 md:p-0">
       <img src="assets/icon/payment-mode-img.png.webp">
-      <p class="ml-25 text-white">© 2025-26 Mango Basket</p>
+      <p class="md:ml-25 text-white text-sm">© 2025-26 Mango Basket</p>
     </div>
   </div>
 </footer>
