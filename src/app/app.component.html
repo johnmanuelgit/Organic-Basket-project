@@ -4,13 +4,13 @@
    <img src="assets\image\home-logo.png" alt="Mango Basket Logo" class="md:-my-15 -my-20 mx-5 md:mx-70 md:w-50 md:h-50 md:py-2 hover:scale-105"[routerLink]="['/home']">
   </div>
   <!-- Menu Button for Mobile -->
-<button (click)="toggleMenu()" class=" absolute left-60 md:hidden text-xl text-[#8b0000] text-center p-10">
+<button (click)="toggleMenu()" class=" absolute left-80 md:hidden text-xl text-[#8b0000] text-center p-10">
   <i class="fas fa-bars"></i>
 </button>
 <!-- Nav Links -->
 <nav
   [ngClass]="{ 'flex': isMenuOpen, 'hidden': !isMenuOpen }"
-  class="flex-col  items-center gap-y-4 mt-120 mr-27 md:mr-0 md:mt-0 text-[#8b0000] font-small text-xl p-10 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl  "
+  class="flex-col  items-center gap-y-4 mt-120 mr-15 md:mr-0 md:mt-0 text-[#8b0000] font-small text-xl p-10 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl  "
 >
   <a [routerLink]="['home']" routerLinkActive="active-link"
     class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Home</a>
@@ -42,11 +42,18 @@
   </button>
 </nav>
 </div>
+<div class="min-h-screen w-full overflow-x-hidden">
 <router-outlet>
-  <button (click)="scrolltop()" *ngIf="showbutton" class="fixed bottom-5 my-110  md:mx-0 right-5 w-10 h-10 md:w-20 md:h-20 bg-stone-200 text-5xl text-black rounded-full flex items-center justify-center shadow-lg transition-opacity duration-500 font-bold hover:bg-white z-50">
-    ↑
-  </button>
+<button
+  (click)="scrolltop()"
+  *ngIf="showbutton"
+  class="fixed bottom-5 right-5 w-10 h-10 md:w-20 md:h-20 bg-stone-200 text-3xl md:text-5xl text-black rounded-full flex items-center justify-center shadow-lg transition-opacity duration-500 font-bold hover:bg-white z-50"
+>
+  ↑
+</button>
+
 </router-outlet>
+</div>
 <footer>
   <div class="flex w-full h-100">
     <img src="assets/image/footer.png" class="relative mt-5 w-full h-full object-cover">
