@@ -1,6 +1,6 @@
-<div class="w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover flex overflow-x-hidden">
+<div class="w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover flex overflow-x-hidden flex-wrap md:flex-nowrap">
     <!-- blog.component.html -->
-    <div class="container mx-auto space-y-5 p-35">
+    <div class="container mx-auto space-y-5 p-5 mt-28 md:mt-0 md:p-35">
       <div class="flex justify-between items-center">
         <p class="flex gap-2 text-[#941a28] text-sm">
           <a [routerLink]="['/home']" class="hover:underline">Home</a> > Privacy Policy
@@ -44,7 +44,7 @@
         <h1 class="text-2xl font-bold text-left text-[#941a28] mb-6">Industry regulatory disclosure requirements</h1>
     </div>
     </div>
-    <div class="w-full p-28">
+    <div class="w-full mt-28 md:mt-0 p-5 md:p-28">
       <div class=" flex justify-end">
         <input type="search" 
          [(ngModel)]="searchQuery" 

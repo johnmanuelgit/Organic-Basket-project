@@ -1,6 +1,6 @@
-<div class="w-full h-full bg-[url('assets/image/bg-Wiki.png')] bg-cover flex overflow-x-hidden">
+<div class="w-full h-full bg-[url('assets/image/bg-Wiki.png')] bg-cover flex overflow-x-hidden flex-wrap md:flex-nowrap">
     <!-- blog.component.html -->
-    <div class="container space-y-5 p-35">
+    <div class="container space-y-5 mt-30 md:mt-0 p-5 md:p-35">
       <div class="flex justify-between items-center">
         <p class="flex gap-2 text-[#941a28] text-sm">
           <a [routerLink]="['/home']" class="hover:underline">Home</a> > Wiki
@@ -9,7 +9,7 @@
       <h1 class="text-4xl font-bold text-left text-green-600 mb-6">Wiki</h1>
       <p class="text-left text-[#941a28] mb-6">Mangoes are juicy, succulent, and just mouth-wateringly delicious! <br>But they’re not called the kind of fruits only for these aspects, there is so much<br> more! These sunshine gold-colored fruits offer a myriad of health benefits<br> as well. In this blog, we give you all the more reasons why eating mangoes<br> is the best decision you can make for your health.</p>
       <button
-      class="md:px-8 md:py-3 bg-orange-500 text-white rounded-full md:text-lg md:font-semibold hover:bg-orange-600 hover:scale-110" [routerLink]="['/products']">
+      class="px-8 py-3 bg-orange-500 text-white rounded-full md:text-lg md:font-semibold hover:bg-orange-600 hover:scale-110" [routerLink]="['/products']">
       Order Now
     </button>
     <div class="min-h-screen bg-beige-100 flex items-center justify-center -ml-15 md:-ml-0">

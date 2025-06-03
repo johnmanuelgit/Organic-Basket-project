@@ -1,4 +1,4 @@
-<div class="flex absolute fixed items-center justify-between bg-[#f6f0e8] px-4 w-full h-20 shadow-md z-50"
+<div class="flex absolute fixed items-center justify-between bg-[#f6f0e8] px-4 w-full h-20 shadow-md z-50 "
   [ngClass]="{'bg-[#f6f0e8] shadow-md':isscrolled}">
   <div class="flex items-end space-x-2 rounded-full w-70 h-70 md:w-180 md:h-190 bg-white mb-40 md:mb-90 md:-mx-60 -mx-20 md:-my-60 md:p-5 p-20 shadow-lg">
    <img src="assets\image\home-logo.png" alt="Mango Basket Logo" class="md:-my-15 -my-20 mx-5 md:mx-70 md:w-50 md:h-50 md:py-2 hover:scale-105"[routerLink]="['/home']">
@@ -10,7 +10,7 @@
 <!-- Nav Links -->
 <nav
   [ngClass]="{ 'flex': isMenuOpen, 'hidden': !isMenuOpen }"
-  class="flex-col  items-center gap-y-4 mt-120 mr-15 md:mr-0 md:mt-0 text-[#8b0000] font-small text-xl p-10 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl  "
+  class="flex-col  items-center gap-y-4 mt-120 mr-15 md:mr-0 md:mt-0 text-[#8b0000] font-small text-xl p-10 md:flex md:flex-row md:gap-x-8 md:px-35 bg-white md:bg-transparent rounded-2xl flex-wrap  "
 >
   <a [routerLink]="['home']" routerLinkActive="active-link"
     class="hover:underline decoration-3 underline-offset-4 hover:scale-110">Home</a>

@@ -1,6 +1,6 @@
-<div class="w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover flex overflow-x-hidden">
+<div class="w-full h-full bg-[url('assets/image/product-page-bg.png')] bg-cover flex overflow-x-hidden flex-wrap md:flex-nowrap">
     <!-- blog.component.html -->
-    <div class="container  mx-auto space-y-5 p-35">
+    <div class="container  mx-auto space-y-5 mt-30 md:mt-0 p-5 md:p-35">
       <div class="flex justify-between items-center">
         <p class="flex gap-2 text-[#941a28] text-sm">
           <a [routerLink]="['/home']" class="hover:underline">Home</a> > Return & Refund Policy
@@ -28,7 +28,7 @@
         <p class="text-left text-[#941a28] mb-6">D. If anything happens to mangoes while they are in transit we take full responsibility of it and in this regards we have our refund and replacement policy in place which you can read it above.</p>
       </div>
     </div>
-    <div class="w-full p-28">
+    <div class="w-full  p-5 md:p-28">
       <div class=" flex justify-end">
         <input type="search" 
          [(ngModel)]="searchQuery" 
