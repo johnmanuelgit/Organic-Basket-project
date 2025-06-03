@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import 'swiper/css';
@@ -16,18 +16,14 @@ interface Testimonial {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterModule, RouterLink,FormsModule,ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 
 export class HomeComponent implements OnInit, OnDestroy  {
 
-  fullName: string = '';
-  email: string = '';
-  nameError: boolean = false;
-  emailError: boolean = false;
-// home.component.ts
+
 hoveredMarker: number | null = null;
 
 setHover(index: number) {
@@ -38,38 +34,32 @@ clearHover() {
   this.hoveredMarker = null;
 }
 
+  newsletterForm: FormGroup;
+  isSuccess = false;
 
-  subscribe() {
-    // Reset errors
-    this.nameError = false;
-    this.emailError = false;
-
-    // Validation
-    if (!this.fullName.trim()) {
-      this.nameError = true;
-    }
-
-    if (!this.email.trim() || !this.validateEmail(this.email)) {
-      this.emailError = true;
-    }
-
-    if (this.nameError || this.emailError) {
-      return;
-    }
-
-    // Success: Print data in console and show alert
-    console.log('Subscribed with:', { name: this.fullName, email: this.email });
-    alert('Thank you for subscribing!');
-
-    // Clear input fields after submission
-    this.fullName = '';
-    this.email = '';
+  constructor(private fb: FormBuilder) {
+    this.newsletterForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
 
-  validateEmail(email: string): boolean {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return emailPattern.test(email);
+  onSubmit() {
+    if (this.newsletterForm.valid) {
+      // In a real app, you would send the data to your server here
+      console.log('Form submitted:', this.newsletterForm.value);
+      
+      // Show success message
+      this.isSuccess = true;
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        this.newsletterForm.reset();
+        this.isSuccess = false;
+      }, 3000);
+    }
   }
+ 
 
   // autto paginatuion 
   testimonials: Testimonial[] = [

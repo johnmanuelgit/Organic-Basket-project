@@ -3,11 +3,12 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CartService } from './cart/cart.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FontAwesomeModule, RouterModule, RouterLink],
+  imports: [RouterOutlet, CommonModule, FontAwesomeModule, RouterModule, RouterLink,FormsModule,ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -16,12 +17,19 @@ export class AppComponent implements OnInit {
   showbutton = false;
   cartCount = 0;
 isMenuOpen = false;
-constructor (private cartService: CartService,private router:Router) {
+currentYear = new Date().getFullYear();
+  newsletterForm: FormGroup;
+  isSuccess = false;
+
+constructor (private cartService: CartService,private router:Router,private fb: FormBuilder) {
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
+     this.newsletterForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
 }
 ngOnInit() {
   this.cartService.cartItemsCount$.subscribe(count => {
@@ -57,5 +65,31 @@ toggleMenu() {
   else{
     this.router.navigate(['/login'])
   }
+  }
+
+onSubmit() {
+    if (this.newsletterForm.invalid) {
+      this.markFormGroupTouched(this.newsletterForm);
+      return;
+    }
+
+    // Just show success message without API call
+    this.isSuccess = true;
+    this.newsletterForm.reset();
+
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      this.isSuccess = false;
+    }, 5000);
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
