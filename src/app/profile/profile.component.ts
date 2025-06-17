@@ -27,17 +27,14 @@ export class ProfileComponent implements OnInit{
    
   
     if(userId && token){
-      const headers = { 'Authorization': `Bearer ${token}` };
     
-      this.http.get<any>(`https://bakendrepo.onrender.com/api/user/profile/${userId}`, { headers }).subscribe(
+      this.http.get<any>(`https://bakendrepo.onrender.com/api/user/profile/${userId}`).subscribe(
         data => {
           console.log('User Data:', data);
           this.user = data;
-          this.loading = false;
         },
         error => {
           console.error('Error fetching user data:', error);
-          this.loading = false; 
         }
       );
     } else {

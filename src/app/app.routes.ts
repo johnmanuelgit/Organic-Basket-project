@@ -21,33 +21,41 @@ import { ReturnRefundComponent } from './return-refund/return-refund.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { WikiComponent } from './wiki/wiki.component';
 import { RecipesComponent } from './recipes/recipes.component';
+import { AuthGuard } from './auth.guard';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminProductComponent } from './admindash/admin-product/admin-product.component';
 
 
 export const routes: Routes = [{ path: "", component: HomeComponent },
-{ path: "home", component: HomeComponent },
-{ path: "products", component: ProductComponent },
-{ path: "contact", component: ContactUsComponent },
-{ path: "cart", component: CartComponent },
+{ path: "home", component: HomeComponent ,canActivate: [AuthGuard]},
+{ path: "products", component: ProductComponent,canActivate: [AuthGuard] },
+{ path: "contact", component: ContactUsComponent,canActivate: [AuthGuard] },
+{ path: "cart", component: CartComponent ,canActivate: [AuthGuard]},
 { path: "login", component: LoginComponent },
 { path: "signup", component: SignupComponent },
-{ path: "about", component: AboutComponent },
-{ path: "blog", component: BlogComponent },
-{path:"profile",component:ProfileComponent},
-{path:"term&cond",component:TermsComponent},
-{path:"return&refund",component:ReturnRefundComponent},
-{path:"privacy",component:PrivacyComponent},
-{path:"wiki",component:WikiComponent},
-{path:"recipes",component:RecipesComponent},
+{ path: "about", component: AboutComponent ,canActivate: [AuthGuard]},
+{ path: "blog", component: BlogComponent ,canActivate: [AuthGuard]},
+{path:"profile",component:ProfileComponent,canActivate: [AuthGuard]},
+{path:"term&cond",component:TermsComponent,canActivate: [AuthGuard]},
+{path:"return&refund",component:ReturnRefundComponent,canActivate: [AuthGuard]},
+{path:"privacy",component:PrivacyComponent,canActivate: [AuthGuard]},
+{path:"wiki",component:WikiComponent,canActivate: [AuthGuard]},
+{path:"recipes",component:RecipesComponent,canActivate: [AuthGuard]},
 
 // product details page
-{ path: "devgad", component: DevgadComponent },
-{ path: "goa", component: GoaMankuradComponent },
-{ path: "kesar", component: KesarMangoComponent },
-{ path: "langra", component: LangraMangoComponent },
-{ path: "ratnagiri", component: RatnagiriAlphonsoComponent },
-{ path: "payari", component: PayariMangoesComponent },
-{ path: "ratna", component: RatnaAlphonsoComponent },
+{ path: "devgad", component: DevgadComponent,canActivate: [AuthGuard] },
+{ path: "goa", component: GoaMankuradComponent,canActivate: [AuthGuard] },
+{ path: "kesar", component: KesarMangoComponent,canActivate: [AuthGuard] },
+{ path: "langra", component: LangraMangoComponent,canActivate: [AuthGuard] },
+{ path: "ratnagiri", component: RatnagiriAlphonsoComponent,canActivate: [AuthGuard] },
+{ path: "payari", component: PayariMangoesComponent,canActivate: [AuthGuard] },
+{ path: "ratna", component: RatnaAlphonsoComponent,canActivate: [AuthGuard] },
 
 // blog page
-{ path: "blog/:id", component: PageComponent }
+{ path: "blog/:id", component: PageComponent,canActivate: [AuthGuard] },
+
+{path:"admin-login",component:AdminLoginComponent},
+{path:"admin-dash",component:AdminDashboardComponent},
+{path:"admin-product",component:AdminProductComponent}
 ];

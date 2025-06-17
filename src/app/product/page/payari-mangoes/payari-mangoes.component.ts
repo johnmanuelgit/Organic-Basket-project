@@ -5,6 +5,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import productsData from '../devgad/products.json';
 import { CartService } from '../../../cart/cart.service';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../../service/toast.service';
 declare var Razorpay: any;
 
 @Component({
@@ -24,14 +25,14 @@ export class PayariMangoesComponent implements OnInit, OnDestroy {
    filteredProducts: any[] = [];
   
     
-    constructor(private cartService: CartService, private http:HttpClient) {}
+    constructor(private cartService: CartService, private http:HttpClient,private toaste:ToastService) {}
 
 
     addToCart(product: any, quantity: number) {
       const token = localStorage.getItem('token');
     
       if (!token) {
-        alert('Please login to add products to the cart.');
+        this.toaste.error('Please login to add products to the cart.');
         return;
       }
     
@@ -48,7 +49,7 @@ export class PayariMangoesComponent implements OnInit, OnDestroy {
       };
   
       this.cartService.addToCart(item);
-      alert(`${product.name} added to cart!`);
+      this.toaste.success(`${product.name} added to cart!`);
     }
     
 
@@ -140,7 +141,7 @@ export class PayariMangoesComponent implements OnInit, OnDestroy {
         order_id:order.id,
         handler:(response:any)=>{
           console.log('Payment Successfull!',response);
-          alert('Payment Successfull!');
+          this.toaste.success('Payment Successfull!');
         },
         prefill:{
           name:'John Manuvel',

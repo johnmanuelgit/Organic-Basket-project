@@ -4,6 +4,8 @@ import { NavigationEnd, Router, RouterLink, RouterModule, RouterOutlet } from '@
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CartService } from './cart/cart.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoaderService } from './service/loader/loader.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +15,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+    isLoading$: Observable<boolean>; 
   isscrolled = false;
   showbutton = false;
   cartCount = 0;
@@ -21,7 +24,7 @@ currentYear = new Date().getFullYear();
   newsletterForm: FormGroup;
   isSuccess = false;
 
-constructor (private cartService: CartService,private router:Router,private fb: FormBuilder) {
+constructor (private cartService: CartService,private router:Router,private fb: FormBuilder, public loaderService: LoaderService) {
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -30,6 +33,8 @@ constructor (private cartService: CartService,private router:Router,private fb: 
      this.newsletterForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
+
+        this.isLoading$ = this.loaderService.isLoading;
 }
 ngOnInit() {
   this.cartService.cartItemsCount$.subscribe(count => {

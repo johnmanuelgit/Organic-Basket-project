@@ -13,7 +13,7 @@ export interface ContactMessage {
   providedIn: 'root'
 })
 export class ContactService {
-  private apiUrl = 'https://api.example.com/contact'; // Replace with your actual API endpoint
+  private apiUrl = 'https://bakendrepo.onrender.com/contact';
 
   constructor(private http: HttpClient) { }
 

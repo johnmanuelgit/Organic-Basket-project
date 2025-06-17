@@ -24,7 +24,7 @@ export class RecipesComponent {
     { name: 'Aam Panna', image: 'assets/image/recipe-4.webp', category: 'refreshment' }
   ];
 
-  recipes = [...this.allRecipes]; // default show all
+  recipes = [...this.allRecipes];
   subscriptionMessage: string = '';
 
   selectCategory(index: number): void {

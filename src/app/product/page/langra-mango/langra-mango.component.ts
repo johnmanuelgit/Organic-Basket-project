@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import productsData from '../devgad/products.json';
 import { CartService } from '../../../cart/cart.service';
+import { ToastService } from '../../../service/toast.service';
 
 @Component({
   selector: 'app-langra-mango',
@@ -22,13 +23,13 @@ export class LangraMangoComponent implements OnInit, OnDestroy {
    filteredProducts: any[] = [];
   
     
-    constructor(private cartService: CartService) {}
+    constructor(private cartService: CartService,private toast:ToastService) {}
 
     addToCart(product: any, quantity: number) {
       const token = localStorage.getItem('token');
     
       if (!token) {
-        alert('Please login to add products to the cart.');
+        this.toast.error('Please login to add products to the cart.');
         return;
       }
     
@@ -45,7 +46,7 @@ export class LangraMangoComponent implements OnInit, OnDestroy {
       };
   
       this.cartService.addToCart(item);
-      alert(`${product.name} added to cart!`);
+      this.toast.success(`${product.name} added to cart!`);
     }
     
 

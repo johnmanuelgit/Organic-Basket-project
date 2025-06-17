@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 declare var Razorpay: any;
 
 @Injectable({
@@ -17,7 +18,7 @@ export class CartService {
   cartItemsCount$: Observable<number>;
   cart$: Observable<any[]>;
   
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private toast:ToastrService) {
     // Initialize the observables
     this.cartItemsCount$ = this.cartItemsCountSubject.asObservable();
     this.cart$ = this.cartSubject.asObservable();
@@ -46,7 +47,6 @@ export class CartService {
             this.cartItems = items;
             this.cartSubject.next([...this.cartItems]);
             this.updateCartItemsCount();
-            // Also update localStorage to keep things in sync
             localStorage.setItem('cart', JSON.stringify(this.cartItems));
           }
         }),
@@ -255,7 +255,7 @@ export class CartService {
           order_id: order.id,
           handler: (response: any) => {
             console.log('Payment Successful!', response);
-            alert('Payment Successful!');
+            this.toast.success('Payment Successful!');
             // Clear cart after successful payment
             this.clearCart();
           },
@@ -274,7 +274,7 @@ export class CartService {
       },
       error: error => {
         console.error('Order creation failed', error);
-        alert('Failed to create payment order. Please try again.');
+        this.toast.error('Failed to create payment order. Please try again.');
       }
     });
   }

@@ -47,6 +47,9 @@ login() {
       localStorage.setItem('userId', res.user._id);
       localStorage.setItem('token', res.token);
       localStorage.setItem('user', JSON.stringify(res.user));
+      const token =localStorage.getItem('token')
+      
+      console.log('token',token)
       this.cartService.fetchCartFromBackend();
       this.toast.success('Login successful!');
       this.router.navigate(['/home']);
@@ -57,7 +60,7 @@ login() {
       } else if (err.status === 401) {
         this.toast.error('Incorrect password');
       } else {
-        this.toast.error('Login failed');
+        this.toast.error('Login failed');  
       }
     }
   });

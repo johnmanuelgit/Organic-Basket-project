@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterModule } from '@angular/router';
+import { ToastService } from '../service/toast.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -14,7 +15,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 export class ContactUsComponent {
   contactForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient,private toast:ToastService) {
     this.contactForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -27,7 +28,7 @@ export class ContactUsComponent {
     if (this.contactForm.valid) {
       console.log('Form submitted:', this.contactForm.value);
       this.contactForm.reset();
-      alert('Thank you for your message. We will get back to you soon!');
+      this.toast.success('Thank you for your message. We will get back to you soon!');
     } else {
       // Mark all fields as touched to trigger validation messages
       Object.keys(this.contactForm.controls).forEach(key => {

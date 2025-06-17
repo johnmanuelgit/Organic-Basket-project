@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,7 @@ export class SignupComponent {
     this.showPassword = !this.showPassword;
   }
   
-constructor (private http:HttpClient,private router:Router){
+constructor (private http:HttpClient,private router:Router,private toast:ToastrService){
   this.signupform = new FormGroup({
     name:new FormControl('',[Validators.required]),
     email:new FormControl('',[Validators.required,Validators.email]),
@@ -40,15 +41,15 @@ register() {
     
     next: (res) => {
       console.log('Registration successful:', res);
-      alert('Registered Successfully');
+       this.toast.success('Registered Successfully');
       this.router.navigate(['/login']);
     },
     error: (err) => {
       if (err.status === 400) {
-        alert('Email already registered');
+        this.toast.warning('Email already registered');
         this.router.navigate(['/login']);
       } else {
-        alert('Registration failed');
+        this.toast.error('Registration failed');
       }
     }
   });
