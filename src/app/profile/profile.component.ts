@@ -15,7 +15,6 @@ import { CartService } from '../cart/cart.service';
 })
 export class ProfileComponent implements OnInit{
   user:any=true;
-  loading = true;
 
   constructor (private router:Router,private http: HttpClient,private cartService: CartService){}
 
@@ -39,7 +38,6 @@ export class ProfileComponent implements OnInit{
       );
     } else {
       console.log('No userId found in localStorage');
-      this.loading = false; 
     }
   }
     

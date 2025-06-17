@@ -1,14 +1,4 @@
-<div *ngIf="loading" class="flex justify-center items-center py-40 flex-wrap">
-  <svg class="animate-spin h-10 w-10 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-       viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10"
-            stroke="currentColor" stroke-width="4"></circle>
-    <path class="opacity-75" fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-  </svg>
-</div>
-
-<div *ngIf="!loading && user" class="p-30">
+<div *ngIf=" user" class="p-30">
   <h1 class="md:text-center mt-5 mb-5 font-bold text-[#8b0000] text-3xl">User Profile</h1>
   <div class="space-y-10 md:p-30">
     <p><strong>Name:</strong> {{ user.name }}</p>
